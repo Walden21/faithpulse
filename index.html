@@ -320,7 +320,6 @@
     $(document).ready(function () {
       loadModal();
       loadContent();
-      loadSnapshots();
     });
 
     //Below provided by 'tdsymonds': https://gist.github.com/tdsymonds/23917215f591a9e1442a38783c77f0f0
@@ -375,7 +374,7 @@
     class Button {
       constructor(name, state) {
         var d1 = $("<div class='pretty p-default p-curve'>");
-        var in1 = $("<input type='radio' id='color" + name + "' name='color" + name + "' />");
+        var in1 = $("<input type='radio' name='color" + name + "' />");
         d1.append(in1);
         var d2 = $("<div class='state p-" + state + "-o'>");
         var la1 = $("<label></label>");
@@ -421,42 +420,6 @@
 
       $("#table").append(tr2);
     }
-
-    // Save snapshot to localStorage
-    function saveSnapshot() {
-      let snapshot = [];
-      $("input[type='radio']:checked").each(function () {
-        snapshot.push($(this).attr("id"));
-      });
-      let timestamp = new Date().toISOString();
-      localStorage.setItem("snapshot_" + timestamp, JSON.stringify(snapshot));
-      alert("Snapshot saved!");
-    }
-
-    // Load snapshots from localStorage
-    function loadSnapshots() {
-      let snapshotContainer = $("<div id='snapshotContainer'></div>");
-      for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i);
-        if (key.startsWith("snapshot_")) {
-          let button = $("<button class='btn btn-secondary m-2'>" + key.replace("snapshot_", "") + "</button>");
-          button.on("click", function () {
-            let snapshot = JSON.parse(localStorage.getItem(key));
-            $("input[type='radio']").prop("checked", false);
-            snapshot.forEach(id => {
-              $("#" + id).prop("checked", true);
-            });
-          });
-          snapshotContainer.append(button);
-        }
-      }
-      $("main").append(snapshotContainer);
-    }
-
-    // Add Save Snapshot button
-    let saveButton = $("<button class='btn btn-primary m-3'>Save Snapshot</button>");
-    saveButton.on("click", saveSnapshot);
-    $("main").prepend(saveButton);
   </script>
 
 </body>
