@@ -375,7 +375,7 @@
     class Button {
       constructor(name, state) {
         var d1 = $("<div class='pretty p-default p-curve'>");
-        var in1 = $("<input type='radio' name='color" + name + "' />");
+        var in1 = $("<input type='radio' id='color" + name + "' name='color" + name + "' />");
         d1.append(in1);
         var d2 = $("<div class='state p-" + state + "-o'>");
         var la1 = $("<label></label>");
@@ -426,7 +426,7 @@
     function saveSnapshot() {
       let snapshot = [];
       $("input[type='radio']:checked").each(function () {
-        snapshot.push($(this).attr("name"));
+        snapshot.push($(this).attr("id"));
       });
       let timestamp = new Date().toISOString();
       localStorage.setItem("snapshot_" + timestamp, JSON.stringify(snapshot));
@@ -443,8 +443,8 @@
           button.on("click", function () {
             let snapshot = JSON.parse(localStorage.getItem(key));
             $("input[type='radio']").prop("checked", false);
-            snapshot.forEach(name => {
-              $("input[name='" + name + "']").prop("checked", true);
+            snapshot.forEach(id => {
+              $("#" + id).prop("checked", true);
             });
           });
           snapshotContainer.append(button);
