@@ -466,27 +466,31 @@
         const name = "color" + i;
         let color = 'Not Set';
         
-        // Find the .pretty container that has a checked input with this name
-        const checkedInput = $('input[name="' + name + '"]:checked');
-        console.log('Found checked input for ' + name + ':', checkedInput.length > 0);
+        // Find all inputs with this name and check which one is checked
+        const inputs = $('input[name="' + name + '"]');
+        console.log('Found ' + inputs.length + ' inputs for ' + name);
         
-        if (checkedInput.length > 0) {
-          // Get the parent .pretty div and find its .state div
-          const prettyDiv = checkedInput.closest('.pretty');
-          const stateDiv = prettyDiv.find('.state');
-          const stateClass = stateDiv.attr('class');
-          console.log('State class for ' + name + ':', stateClass);
+        inputs.each(function(index) {
+          const input = this;
+          console.log('Input ' + index + ' checked property:', input.checked);
+          console.log('Input ' + index + ' id:', input.id);
           
-          if (stateClass) {
-            const match = stateClass.match(/p-(success|warning|danger)-o/);
-            if (match) {
-              color = stateMap[match[1]];
-              console.log('Matched color for ' + name + ': ' + color);
+          if (input.checked) {
+            // Get the parent .pretty div and find its .state div
+            const prettyDiv = $(input).closest('.pretty');
+            const stateDiv = prettyDiv.find('.state');
+            const stateClass = stateDiv.attr('class');
+            console.log('State class for ' + name + ':', stateClass);
+            
+            if (stateClass) {
+              const match = stateClass.match(/p-(success|warning|danger)-o/);
+              if (match) {
+                color = stateMap[match[1]];
+                console.log('Matched color for ' + name + ': ' + color);
+              }
             }
           }
-        } else {
-          console.log('No checked input found for ' + name);
-        }
+        });
         
         statusText += rowNames[i] + ": " + color + "\n";
       }
