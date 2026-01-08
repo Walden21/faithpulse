@@ -235,6 +235,9 @@
 
       </ul>
       <ul class="navbar-nav navbar-right">
+        <li class="nav-item">
+          <button id="copyStatusBtn" class="btn btn-primary nav-link" style="margin-right: 1rem;">Copy Status</button>
+        </li>
         <li class="nav-item dropdown navbar-right">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle nav-link" type="button" id="dropdown01"
@@ -254,7 +257,6 @@
 
   <!-- Working Grid -->
   <main id="FaithPulse">
-    <button id="copyStatusBtn" class="btn btn-primary">Copy</button>
     <div id="copyFeedback">Status copied to clipboard!</div>
     <div class="mdc-data-table text-secondary" style="font-size: 3.75svh;">
       <table class="mdc-data-table__table" aria-label="Tracker Table">
@@ -461,14 +463,19 @@
 
       for (let i = 0; i < rowNames.length; i++) {
         const name = "color" + i;
-        const checkedState = $('input[name="' + name + '"]:checked').closest('.pretty').find('.state').attr('class');
+        const checkedInput = $('input[name="' + name + '"]:checked');
         
         let color = 'Not Set';
-        if (checkedState) {
-          const stateClass = checkedState.split(' ').find(cls => cls.startsWith('p-') && !cls.startsWith('p-default'));
+        if (checkedInput.length > 0) {
+          const stateDiv = checkedInput.closest('.pretty').find('.state');
+          const stateClass = stateDiv.attr('class');
+          
           if (stateClass) {
-            const state = stateClass.substring(2, stateClass.length - 2); // Extract state from 'p-{state}-o'
-            color = stateMap[state] || 'Not Set';
+            // Extract the state from classes like "state p-success-o"
+            const match = stateClass.match(/p-(success|warning|danger)-o/);
+            if (match) {
+              color = stateMap[match[1]];
+            }
           }
         }
         
