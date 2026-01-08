@@ -184,6 +184,33 @@
       color: #4682b4 !important;
       border-color: #e9ecef #e9ecef #ddd
     }
+
+    #copyStatusBtn {
+      margin-bottom: 1rem;
+      background-color: #4682b4 !important;
+      border-color: #4682b4 !important;
+      color: #fff !important;
+      font-weight: 600;
+    }
+
+    #copyStatusBtn:hover {
+      background-color: #36648b !important;
+      border-color: #36648b !important;
+    }
+
+    #copyFeedback {
+      display: none;
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #28a745;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 4px;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 
@@ -227,6 +254,8 @@
 
   <!-- Working Grid -->
   <main id="FaithPulse">
+    <button id="copyStatusBtn" class="btn btn-primary">Copy</button>
+    <div id="copyFeedback">Status copied to clipboard!</div>
     <div class="mdc-data-table text-secondary" style="font-size: 3.75svh;">
       <table class="mdc-data-table__table" aria-label="Tracker Table">
         <thead>
@@ -420,6 +449,49 @@
 
       $("#table").append(tr2);
     }
+
+    // Function to copy status to clipboard
+    function copyStatusToClipboard() {
+      let statusText = "";
+      const stateMap = {
+        'success': 'Green',
+        'warning': 'Amber',
+        'danger': 'Red'
+      };
+
+      for (let i = 0; i < rowNames.length; i++) {
+        const name = "color" + i;
+        const checkedState = $('input[name="' + name + '"]:checked').closest('.pretty').find('.state').attr('class');
+        
+        let color = 'Not Set';
+        if (checkedState) {
+          const stateClass = checkedState.split(' ').find(cls => cls.startsWith('p-') && !cls.startsWith('p-default'));
+          if (stateClass) {
+            const state = stateClass.substring(2, stateClass.length - 2); // Extract state from 'p-{state}-o'
+            color = stateMap[state] || 'Not Set';
+          }
+        }
+        
+        statusText += rowNames[i] + ": " + color + "\n";
+      }
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(statusText.trim()).then(function() {
+        // Show feedback
+        $('#copyFeedback').show();
+        setTimeout(function() {
+          $('#copyFeedback').fadeOut();
+        }, 2000);
+      }).catch(function(err) {
+        console.error('Failed to copy: ', err);
+        alert('Failed to copy status to clipboard');
+      });
+    }
+
+    // Attach click handler to copy button
+    $(document).on('click', '#copyStatusBtn', function() {
+      copyStatusToClipboard();
+    });
   </script>
 
 </body>
