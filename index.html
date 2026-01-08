@@ -463,24 +463,30 @@
 
       for (let i = 0; i < rowNames.length; i++) {
         const name = "color" + i;
-        const checkedInput = $('input[name="' + name + '"]:checked');
-        
         let color = 'Not Set';
-        if (checkedInput.length > 0) {
-          const stateDiv = checkedInput.closest('.pretty').find('.state');
-          const stateClass = stateDiv.attr('class');
-          
-          if (stateClass) {
-            // Extract the state from classes like "state p-success-o"
-            const match = stateClass.match(/p-(success|warning|danger)-o/);
-            if (match) {
-              color = stateMap[match[1]];
+        
+        // Find all inputs with this name and check which one is checked
+        $('input[name="' + name + '"]').each(function() {
+          if ($(this).is(':checked')) {
+            // Get the state div from the parent .pretty div
+            const stateDiv = $(this).closest('.pretty').find('.state');
+            const stateClass = stateDiv.attr('class');
+            console.log('Found checked input for ' + name + ', state class:', stateClass);
+            
+            if (stateClass) {
+              const match = stateClass.match(/p-(success|warning|danger)-o/);
+              if (match) {
+                color = stateMap[match[1]];
+                console.log('Matched color: ' + color);
+              }
             }
           }
-        }
+        });
         
         statusText += rowNames[i] + ": " + color + "\n";
       }
+
+      console.log('Final status text:', statusText);
 
       // Copy to clipboard
       navigator.clipboard.writeText(statusText.trim()).then(function() {
