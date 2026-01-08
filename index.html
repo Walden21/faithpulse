@@ -400,99 +400,80 @@
       console.log("reached page?");
     }
 
-    // The Script for running the FaithPulse Table
-    //a class that creates the html for a stylized radio button
-    class Button {
-      constructor(name, state, buttonId) {
-        var d1 = $("<div class='pretty p-default p-curve'>");
-        var in1 = $("<input type='radio' name='color" + name + "' id='" + buttonId + "' />");
-        d1.append(in1);
-        var d2 = $("<div class='state p-" + state + "-o'>");
-        var la1 = $("<label for='" + buttonId + "'></label>");
-        d2.append(la1);
-        d1.append(d2);
-        this.button = d1
-      }
-    }
+    // FaithPulse Status Tracker - Redesigned
+    const rowNames = ["Devotion to God", "Personal Health", "Family", "Stewardship", "Academics", "Volunteering", "Free Time"];
+    const statusMap = {}; // Store selected states: {rowIndex: 'green'|'amber'|'red'|null}
+    
+    // Initialize status map
+    rowNames.forEach((_, index) => {
+      statusMap[index] = null;
+    });
 
-    let rowNames = ["Devotion to God", "Personal Health", "Family", "Stewardship", "Academics", "Volunteering", "Free Time"];
+    // Create table rows
+    rowNames.forEach((rowName, index) => {
+      // Name row
+      const nameRow = $("<tr>").addClass("mdc-data-table__row");
+      const nameCell = $("<td>").addClass("mdc-data-table__cell").text(rowName);
+      nameRow.append(nameCell);
+      $("#table").append(nameRow);
 
-    var i;
-    for (i = 0; i < rowNames.length; i++) {
-      var name = "color" + i;
+      // Buttons row
+      const buttonRow = $("<tr>").addClass("mdc-data-table__row");
+      const buttonCell = $("<td>").addClass("mdc-data-table__cell");
+      
+      // Create three buttons with click handlers
+      const colors = [
+        { name: 'green', label: 'Good', state: 'success', display: 'Green' },
+        { name: 'amber', label: 'Okay', state: 'warning', display: 'Amber' },
+        { name: 'red', label: 'Poor', state: 'danger', display: 'Red' }
+      ];
 
-      var tr = $("<tr>");
-      tr.addClass("mdc-data-table__row");
+      colors.forEach(color => {
+        const buttonContainer = $("<div>").addClass("pretty p-default p-curve");
+        const input = $("<input>")
+          .attr("type", "radio")
+          .attr("name", "status_" + index)
+          .attr("id", "status_" + index + "_" + color.name)
+          .attr("data-row-index", index)
+          .attr("data-color", color.name)
+          .attr("data-display", color.display);
+        
+        const stateDiv = $("<div>").addClass("state p-" + color.state + "-o");
+        const label = $("<label>")
+          .attr("for", "status_" + index + "_" + color.name)
+          .attr("title", color.label);
+        
+        stateDiv.append(label);
+        buttonContainer.append(input);
+        buttonContainer.append(stateDiv);
+        buttonCell.append(buttonContainer);
 
-      //row name
-      var td1 = $("<td>");
-      td1.addClass("mdc-data-table__cell");
-      td1.text(rowNames[i]);
-      tr.append(td1);
+        // Add click handler to update status map
+        input.on("change", function() {
+          if (this.checked) {
+            statusMap[index] = color.name;
+            console.log("Updated status map:", statusMap);
+          }
+        });
+      });
 
-      $("table").append(tr);
-
-      var tr2 = $("<tr>");
-      tr2.addClass("mdc-data-table__row");
-
-      //row name
-      var td2 = $("<td>");
-      td2.addClass("mdc-data-table__cell");
-
-      //the buttons in the row
-      var greenButton = new Button(name, 'success', name + '_green');
-      td2.append(greenButton.button);
-
-      var yellowButton = new Button(name, 'warning', name + '_warning');
-      td2.append(yellowButton.button);
-
-      var redButton = new Button(name, 'danger', name + '_danger');
-      td2.append(redButton.button);
-
-      tr2.append(td2);
-      $("#table").append(tr2);
-    }
+      buttonRow.append(buttonCell);
+      $("#table").append(buttonRow);
+    });
 
     // Function to copy status to clipboard
     function copyStatusToClipboard() {
       let statusText = "";
-      const stateMap = {
-        'success': 'Green',
-        'warning': 'Amber',
-        'danger': 'Red'
+      const displayMap = {
+        'green': 'Green',
+        'amber': 'Amber',
+        'red': 'Red'
       };
 
       for (let i = 0; i < rowNames.length; i++) {
-        const name = "color" + i;
-        let color = 'Not Set';
-        
-        // Find all inputs with this name and check which one is checked
-        const inputs = $('input[name="' + name + '"]');
-        console.log('Found ' + inputs.length + ' inputs for ' + name);
-        
-        inputs.each(function(index) {
-          const input = this;
-          console.log('Input ' + index + ' checked property:', input.checked);
-          console.log('Input ' + index + ' id:', input.id);
-          
-          if (input.checked) {
-            // Get the parent .pretty div and find its .state div
-            const prettyDiv = $(input).closest('.pretty');
-            const stateDiv = prettyDiv.find('.state');
-            const stateClass = stateDiv.attr('class');
-            console.log('State class for ' + name + ':', stateClass);
-            
-            if (stateClass) {
-              const match = stateClass.match(/p-(success|warning|danger)-o/);
-              if (match) {
-                color = stateMap[match[1]];
-                console.log('Matched color for ' + name + ': ' + color);
-              }
-            }
-          }
-        });
-        
-        statusText += rowNames[i] + ": " + color + "\n";
+        const selectedColor = statusMap[i];
+        const displayValue = selectedColor ? displayMap[selectedColor] : 'Not Set';
+        statusText += rowNames[i] + ": " + displayValue + "\n";
       }
 
       console.log('Final status text:', statusText);
