@@ -403,12 +403,12 @@
     // The Script for running the FaithPulse Table
     //a class that creates the html for a stylized radio button
     class Button {
-      constructor(name, state) {
+      constructor(name, state, buttonId) {
         var d1 = $("<div class='pretty p-default p-curve'>");
-        var in1 = $("<input type='radio' name='color" + name + "' />");
+        var in1 = $("<input type='radio' name='color" + name + "' id='" + buttonId + "' />");
         d1.append(in1);
         var d2 = $("<div class='state p-" + state + "-o'>");
-        var la1 = $("<label></label>");
+        var la1 = $("<label for='" + buttonId + "'></label>");
         d2.append(la1);
         d1.append(d2);
         this.button = d1
@@ -440,13 +440,13 @@
       td2.addClass("mdc-data-table__cell");
 
       //the buttons in the row
-      var greenButton = new Button(name, 'success');
+      var greenButton = new Button(name, 'success', name + '_green');
       tr2.append(greenButton.button);
 
-      var yellowButton = new Button(name, 'warning');
+      var yellowButton = new Button(name, 'warning', name + '_warning');
       tr2.append(yellowButton.button);
 
-      var redButton = new Button(name, 'danger');
+      var redButton = new Button(name, 'danger', name + '_danger');
       tr2.append(redButton.button);
 
       $("#table").append(tr2);
