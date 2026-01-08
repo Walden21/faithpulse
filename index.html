@@ -441,14 +441,15 @@
 
       //the buttons in the row
       var greenButton = new Button(name, 'success', name + '_green');
-      tr2.append(greenButton.button);
+      td2.append(greenButton.button);
 
       var yellowButton = new Button(name, 'warning', name + '_warning');
-      tr2.append(yellowButton.button);
+      td2.append(yellowButton.button);
 
       var redButton = new Button(name, 'danger', name + '_danger');
-      tr2.append(redButton.button);
+      td2.append(redButton.button);
 
+      tr2.append(td2);
       $("#table").append(tr2);
     }
 
