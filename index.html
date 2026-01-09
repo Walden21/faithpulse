@@ -185,19 +185,6 @@
       border-color: #e9ecef #e9ecef #ddd
     }
 
-    #copyStatusBtn {
-      margin-bottom: 1rem;
-      background-color: #4682b4 !important;
-      border-color: #4682b4 !important;
-      color: #fff !important;
-      font-weight: 600;
-    }
-
-    #copyStatusBtn:hover {
-      background-color: #36648b !important;
-      border-color: #36648b !important;
-    }
-
     #copyFeedback {
       display: none;
       position: fixed;
@@ -211,45 +198,36 @@
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
-
-    #copyStatusBtn {
-      background-color: transparent !important;
-      border-color: transparent !important;
-      color: inherit !important;
-      padding-top: .3125rem;
-      padding-bottom: .3125rem;
-    }
   </style>
 </head>
 
 <body class="d-flex flex-column" style="min-height: 100vh">
   <!-- Navigation -->
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+    <!-- LEFT SIDE: Brand + Copy Status -->
     <a class="btn btn-secondary nav-link navbar-brand js-scroll-trigger"
       style="background-color: transparent; border-color: none;" href="https://walden21.github.io/">Walden21</a>
 
+    <button id="copyStatusBtn" class="btn btn-secondary nav-link navbar-brand"
+      style="background-color: transparent; border-color: none; margin-left: .5rem;">
+      Copy Status
+    </button>
+
+    <!-- Toggler -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
       aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- RIGHT SIDE: Everything else collapses -->
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="btn btn-secondary nav-link navbar-brand" style="background-color: transparent; border-color: none;"
             data-toggle="modal" href="#WIP">WIP</a>
         </li>
 
-      </ul>
-      <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-          <button id="copyStatusBtn" class="btn btn-secondary nav-link navbar-brand"
-            style="background-color: transparent; border-color: none; margin-right: 1rem;">
-            Copy Status
-          </button>
-
-        </li>
         <li class="nav-item dropdown navbar-right">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle nav-link" type="button" id="dropdown01"
@@ -265,7 +243,9 @@
         </li>
       </ul>
     </div>
+
   </nav>
+
 
   <!-- Working Grid -->
   <main id="FaithPulse">
