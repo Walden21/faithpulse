@@ -216,11 +216,11 @@
 
 <body class="d-flex flex-column" style="min-height: 100vh">
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
-    <a class="navbar-brand js-scroll-trigger" href="https://walden21.github.io/">Walden21</a>
-
-    <a id="copyStatusBtn" class="nav-link" href="javascript:void(0);">Copy Status</a>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"> <a class="navbar-brand js-scroll-trigger"
+      href="https://walden21.github.io/">Walden21</a>
+    <ul class="navbar-nav">
+      <li class="nav-item"> <a id="copyStatusBtn" class="nav-link" href="javascript:void(0);"> Copy Status </a> </li>
+    </ul>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
       aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -230,20 +230,21 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
-          <button class="btn dropdown-toggle nav-link" type="button" id="dropdown01" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false" style="background-color: transparent; border-color: none;">
-            More
-          </button>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
-            <a class="dropdown-item" target="_blank" href="https://github.com/Walden21/Walden21.github.io">Website
-              Repository</a>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle nav-link" type="button" id="dropdown01"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              style="background-color: transparent; border-color: none;">
+              More
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
+              <a class="dropdown-item" target="_blank" href="https://github.com/Walden21/Walden21.github.io">Website
+                Repository</a>
+            </div>
           </div>
         </li>
       </ul>
     </div>
-
   </nav>
-
 
   <!-- Working Grid -->
   <main id="FaithPulse">
