@@ -209,7 +209,7 @@
       padding: 1rem 2rem;
       border-radius: 4px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
   </style>
 </head>
@@ -217,8 +217,10 @@
 <body class="d-flex flex-column" style="min-height: 100vh">
   <!-- Navigation -->
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="btn btn-secondary nav-link navbar-brand js-scroll-trigger" style="background-color: transparent; border-color: none;" href="https://walden21.github.io/">Walden21</a>
-    <a id="copyStatusBtn" class="btn btn-secondary nav-link" href="javascript:void(0);"> Copy Status </a>
+    <a class="btn btn-secondary nav-link navbar-brand js-scroll-trigger"
+      style="background-color: transparent; border-color: none;" href="https://walden21.github.io/">Walden21</a>
+    <a id="copyStatusBtn" class="btn btn-secondary nav-link navbar-brand"
+      style="background-color: transparent; border-color: none;" href="javascript:void(0);">Copy Status</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
       aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -289,9 +291,6 @@
     </div>
   </footer>
 
-
-
-
   <!-- Core JavaScript -->
   <script src="js/jquery.min.js" type="text/javascript"></script>
   <script src="js/jquery.easing.min.js"></script>
@@ -355,7 +354,7 @@
     // FaithPulse Status Tracker - Redesigned
     const rowNames = ["Devotion to God", "Personal Health", "Family", "Stewardship", "Academics", "Volunteering", "Free Time"];
     const statusMap = {}; // Store selected states: {rowIndex: 'green'|'amber'|'red'|null}
-    
+
     // Initialize status map
     rowNames.forEach((_, index) => {
       statusMap[index] = null;
@@ -372,7 +371,7 @@
       // Buttons row
       const buttonRow = $("<tr>").addClass("mdc-data-table__row");
       const buttonCell = $("<td>").addClass("mdc-data-table__cell");
-      
+
       // Create three buttons with click handlers
       const colors = [
         { name: 'green', label: 'Good', state: 'success', display: 'Green' },
@@ -389,19 +388,19 @@
           .attr("data-row-index", index)
           .attr("data-color", color.name)
           .attr("data-display", color.display);
-        
+
         const stateDiv = $("<div>").addClass("state p-" + color.state + "-o");
         const label = $("<label>")
           .attr("for", "status_" + index + "_" + color.name)
           .attr("title", color.label);
-        
+
         stateDiv.append(label);
         buttonContainer.append(input);
         buttonContainer.append(stateDiv);
         buttonCell.append(buttonContainer);
 
         // Add click handler to update status map
-        input.on("change", function() {
+        input.on("change", function () {
           if (this.checked) {
             statusMap[index] = color.name;
             console.log("Updated status map:", statusMap);
@@ -431,20 +430,20 @@
       console.log('Final status text:', statusText);
 
       // Copy to clipboard
-      navigator.clipboard.writeText(statusText.trim()).then(function() {
+      navigator.clipboard.writeText(statusText.trim()).then(function () {
         // Show feedback
         $('#copyFeedback').show();
-        setTimeout(function() {
+        setTimeout(function () {
           $('#copyFeedback').fadeOut();
         }, 2000);
-      }).catch(function(err) {
+      }).catch(function (err) {
         console.error('Failed to copy: ', err);
         alert('Failed to copy status to clipboard');
       });
     }
 
     // Attach click handler to copy button
-    $(document).on('click', '#copyStatusBtn', function() {
+    $(document).on('click', '#copyStatusBtn', function () {
       copyStatusToClipboard();
     });
   </script>
