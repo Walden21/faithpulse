@@ -192,7 +192,8 @@
       left: auto;
       right: 1rem;
       transform: none;
-      background-color: #6c757d; /* Bootstrap 4 secondary button background color */
+      background-color: #6c757d;
+      /* Bootstrap 4 secondary button background color */
       color: white;
       padding: 0.375rem 0.75rem;
       border-radius: 0.25rem;
@@ -413,6 +414,13 @@
       $("#table").append(buttonRow);
     });
 
+    // Detect Android and iOS devices
+    const isMobileDevice = () => {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      return isAndroid || isIOS;
+    };
+
     // Function to copy status to clipboard
     function copyStatusToClipboard() {
       let statusText = "";
@@ -432,11 +440,13 @@
 
       // Copy to clipboard
       navigator.clipboard.writeText(statusText.trim()).then(function () {
-        // Show feedback
-        $('#copyFeedback').show();
-        setTimeout(function () {
-          $('#copyFeedback').fadeOut();
-        }, 2000);
+        // Show feedback only on non-mobile devices (mobile has native clipboard notification)
+        if (!isMobileDevice()) {
+          $('#copyFeedback').show();
+          setTimeout(function () {
+            $('#copyFeedback').fadeOut();
+          }, 2000);
+        }
       }).catch(function (err) {
         console.error('Failed to copy: ', err);
         alert('Failed to copy status to clipboard');
