@@ -353,7 +353,20 @@
     }
 
     // FaithPulse Status Tracker - Redesigned
-    const rowNames = ["Devotion to God", "Personal Health", "Family", "Stewardship", "Academics", "Volunteering", "Free Time"];
+    //const rowNames = ["Devotion to God", "Personal Health", "Family", "Stewardship", "Academics", "Volunteering", "Free Time"];
+    const rowNames = ["Scripture Engagement", "Prayer Life", "Obedience, Integrity", "Community, Relationships", "Service, Generosity", "Rest, Emotional Health", "Mission & purpose Alignment"];
+    
+    // Tooltips for each row - adjustable and modifiable
+    const rowTooltips = [
+      "Regular engagement with Scripture and God's Word",
+      "Consistency and depth in prayer and communion with God",
+      "Living with integrity and obedience to God's principles",
+      "Quality of relationships and community involvement",
+      "Acts of service and generosity towards others",
+      "Adequate rest and emotional well-being",
+      "Living with purpose aligned to God's mission"
+    ];
+    
     const statusMap = {}; // Store selected states: {rowIndex: 'green'|'amber'|'red'|null}
 
     // Initialize status map
@@ -365,9 +378,35 @@
     rowNames.forEach((rowName, index) => {
       // Name row
       const nameRow = $("<tr>").addClass("mdc-data-table__row");
-      const nameCell = $("<td>").addClass("mdc-data-table__cell").text(rowName);
+      const nameCell = $("<td>").addClass("mdc-data-table__cell");
+      
+      // Create a container for the name and tooltip icon
+      const nameContainer = $("<div>").addClass("name-tooltip-container").css({
+        "display": "flex",
+        "align-items": "center",
+        "gap": "8px"
+      });
+      
+      nameContainer.append($("<span>").text(rowName));
+      
+      // Create tooltip icon
+      const tooltipIcon = $("<i>")
+        .addClass("fa fa-info-circle")
+        .attr("data-toggle", "tooltip")
+        .attr("title", rowTooltips[index])
+        .css({
+          "cursor": "pointer",
+          "color": "#6c757d",
+          "font-size": "14px"
+        });
+      
+      nameContainer.append(tooltipIcon);
+      nameCell.append(nameContainer);
       nameRow.append(nameCell);
       $("#table").append(nameRow);
+      
+      // Initialize tooltip for this icon
+      tooltipIcon.tooltip();
 
       // Buttons row
       const buttonRow = $("<tr>").addClass("mdc-data-table__row");
